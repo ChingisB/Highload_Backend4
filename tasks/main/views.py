@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
+from django_otp.decorators import otp_required
 from .forms import EmailForm
 from .tasks import send_email_task
 
@@ -32,3 +33,8 @@ def register(request):
     else:
         form = UserCreationForm()
     return render(request, "register.html", {"form": form})
+
+
+@otp_required
+def protected_view(request):
+    return render(request, "protected.html")
